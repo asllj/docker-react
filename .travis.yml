@@ -1,0 +1,15 @@
+#any time we are making use of docker, we have to have super user permissions.
+# And sudo: require make this
+sudo: require
+services:
+  - docker
+
+before_install:
+  #build our docker image
+  - docker build -t test/docker-react -f Dockerfile.dev .
+
+#esta seccçao é suposto ter todos os diferentes comandos 
+#que sao precisos ser executados, para poder correr os testes
+script:
+  - docker run -e CI=true test/docker-react run npm test
+

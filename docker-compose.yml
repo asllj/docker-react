@@ -1,0 +1,33 @@
+version: '3'
+services: 
+  web:
+    environment: 
+    #if you are using any version of windowns and your react app is not automatically reloading
+    #after a code change, you can add this environment variable to your compose file
+      - CHOKIDAR_USEPOLLING=true
+    #with build: . we are assumming that we have a dockerfile inside in the current directory
+    build: 
+      #especifica onde é que querermos ir buscar os ficheiros e pastas para esta imagem ser puxada
+      # no fundo o que este context e dockerfile diz é que na current diretoria encontra me um dockerfile
+      # com o nome espicificado para criar uma imagem
+      context: .
+      dockerfile: Dockerfile.dev
+    ports: 
+      - '3000:3000'
+    volumes: 
+      # isto aqui diz para nao tentar mapear o que quer que seja para dentro desta pasta node_modules
+      - /app/node_modules
+      # this means the current direct directory outside container (.), to (:) the app folder inside the container (/app)
+      - .:/app
+  tests:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes: 
+      # isto é para garantir que nao faz override desta pasta node_modules
+      - /app/node_modules
+      - .:/app
+    # para sobrepor ou npm run do dockerfile.dev, poe se este command, com  npm run test, para que este serviço fique
+    # responsavel por correr os testes
+    command: ["npm","run","test"]
+

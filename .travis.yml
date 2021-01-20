@@ -1,3 +1,4 @@
+language: generic
 #any time we are making use of docker, we have to have super user permissions.
 # And sudo: require make this
 sudo: require

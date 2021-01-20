@@ -12,5 +12,5 @@ before_install:
 #esta seccçao é suposto ter todos os diferentes comandos 
 #que sao precisos ser executados, para poder correr os testes
 script:
-  - docker run -e CI=true test/docker-react run npm test
+  - docker run -e CI=true test/docker-react npm run test
 
